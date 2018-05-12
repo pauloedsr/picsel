@@ -24,7 +24,8 @@ import * as homeController from "./controllers/home";
 import * as userController from "./controllers/user";
 import * as apiController from "./controllers/api";
 import * as contactController from "./controllers/contact";
-
+import * as fotoController from "./controllers/foto";
+import * as ensaioController from "./controllers/ensaio";
 
 // API keys and Passport configuration
 import * as passportConfig from "./config/passport";
@@ -47,8 +48,8 @@ app.set("port", process.env.PORT || 3000);
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "pug");
 app.use(compression());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true }));
 app.use(expressValidator());
 app.use(session({
   resave: true,
@@ -86,6 +87,16 @@ app.use((req, res, next) => {
 app.use(
   express.static(path.join(__dirname, "public"), { maxAge: 31557600000 })
 );
+
+
+app.post("/foto", fotoController.create);
+app.put("/foto", fotoController.update);
+app.delete("/foto/:id", fotoController.remove);
+app.post("/ensaio", ensaioController.create);
+app.get("/ensaio/list", ensaioController.list);
+app.get("/ensaio/view/:id", ensaioController.view);
+app.delete("/ensaio/:id", ensaioController.remove);
+
 
 /**
  * Primary app routes.
