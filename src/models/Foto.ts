@@ -1,7 +1,4 @@
-import bcrypt from "bcrypt-nodejs";
-import crypto from "crypto";
 import mongoose from "mongoose";
-
 
 export type FotoModel = mongoose.Document & {
   ensaio: string
@@ -11,7 +8,7 @@ export type FotoModel = mongoose.Document & {
 };
 
 const fotoSchema = new mongoose.Schema({
-  ensaio: String,
+  ensaio: { type: mongoose.Schema.Types.ObjectId, ref: "Ensaio" },
   nome: String,
   foto: String,
   selecionado: Boolean

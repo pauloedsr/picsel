@@ -66,6 +66,10 @@ app.use(flash());
 app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection(true));
 app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
   res.locals.user = req.user;
   next();
 });
@@ -90,11 +94,13 @@ app.use(
 
 
 app.post("/foto", fotoController.create);
+app.get("/foto/:id", fotoController.view);
 app.put("/foto", fotoController.update);
+app.put("/foto/seleciona", fotoController.seleciona);
 app.delete("/foto/:id", fotoController.remove);
 app.post("/ensaio", ensaioController.create);
 app.get("/ensaio/list", ensaioController.list);
-app.get("/ensaio/view/:id", ensaioController.view);
+app.get("/ensaio/view/:chave/:page", ensaioController.view);
 app.delete("/ensaio/:id", ensaioController.remove);
 
 
